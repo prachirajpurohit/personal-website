@@ -106,7 +106,7 @@ export const BLOG_POSTS: BlogPost[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     label: 'Github',
-    link: 'https://github.com/ibelick',
+    link: 'https://github.com/prachirajpurohit',
   },
   {
     label: 'Twitter',
@@ -114,7 +114,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
   {
     label: 'LinkedIn',
-    link: 'https://www.linkedin.com/in/ibelick',
+    link: 'https://www.linkedin.com/in/prachi-purohit-2a00243a2/',
   },
   {
     label: 'Instagram',
@@ -122,4 +122,4 @@ export const SOCIAL_LINKS: SocialLink[] = [
   },
 ]
 
-export const EMAIL = 'your@email.com'
+export const EMAIL = 'purohitprachi@proton.me'
