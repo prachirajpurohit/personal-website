@@ -138,7 +138,7 @@ export default function Personal() {
         <div className="flex-1">
           <p className="text-zinc-600 dark:text-zinc-400">
             I’m a generalist building across web, blockchain, and occasional
-            hardware hacks. <br /> Off-screen, I’m most at peace tending
+            hardware experiments. <br /> Off-screen, I’m most at peace tending
             houseplants or feeling the breeze roll in from the seashore. Every
             line of code is another step in building something real and
             meaningful.
