@@ -11,7 +11,6 @@ type WorkExperience = {
   title: string
   start: string
   end: string
-  link: string
   id: string
 }
 
@@ -29,11 +28,27 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
+    name: 'CloseLoop',
+    description:
+      'Built to ensure every person who reaches out gets a response. No exceptions.',
+    link: 'https://loop-close.vercel.app/',
+    video: '/closeloopss.png',
+    id: 'project3',
+  },
+  {
     name: 'Cufe',
     description:
-      'Backend MVP for a customer feedback platform, built using the MERN stack and hosted on Railway.',
-    link: 'https://github.com/prachirajpurohit/cufe',
-    video: 'https://youtube.com/shorts/GBQs7l7Dux0?si=bNl1WsPoJkmbnRBD',
+      'Backend for a customer feedback platform, built using the MERN stack and hosted on Railway.',
+    link: 'https://cufe.up.railway.app/',
+    video: 'cufe.png',
+    id: 'project2',
+  },
+  {
+    name: 'Margin',
+    description:
+      'A distraction-free writing space with big, bold typography for daily thoughts',
+    link: 'https://github.com/prachirajpurohit/margin',
+    video: '/margin.png',
     id: 'project1',
   },
   {
@@ -41,34 +56,31 @@ export const PROJECTS: Project[] = [
     description:
       'A collaborative Figma-to-Webflow design project created at DFG.',
     link: 'https://liminalfutures.com/',
-    video: 'https://youtube.com/shorts/GBQs7l7Dux0?si=bNl1WsPoJkmbnRBD',
-    id: 'project2',
+    video: 'liminal.png',
+    id: 'project0',
   },
 ]
 
 export const WORK_EXPERIENCE: WorkExperience[] = [
-  // {
-  //   company: 'Dev3Pack',
-  //   title: 'Web3 Fellow',
-  //   start: '2026',
-  //   end: 'Present',
-  //   link: "",
-  //   id: 'work1',
-  // },
   {
-    company: 'Freelance',
-    title: 'Full-stack Engineer',
-    start: '2025',
+    company: 'Dev3Pack',
+    title: 'Web3 Fellow',
+    start: '2026',
     end: 'Present',
-    link: '',
-    id: 'work2',
+    id: 'work1',
   },
   {
     company: 'Machine Intelligence Program',
     title: 'Research Asst.',
     start: '2024',
     end: '2025',
-    link: '',
+    id: 'work2',
+  },
+  {
+    company: 'Develop For Good',
+    title: 'Designer',
+    start: '2023',
+    end: '2024',
     id: 'work3',
   },
 ]
@@ -107,10 +119,6 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'Github',
     link: 'https://github.com/prachirajpurohit',
   },
-  // {
-  //   label: 'Twitter',
-  //   link: 'https://twitter.com/ibelick',
-  // },
   {
     label: 'LinkedIn',
     link: 'https://www.linkedin.com/in/prachi-purohit-2a00243a2/',
