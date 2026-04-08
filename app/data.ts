@@ -108,6 +108,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'Discord',
     link: 'https://www.discord.com/users/1426237124000350374',
   },
+  {
+    label: 'Schedule a call',
+    link: 'https://cal.com/prachipurohit',
+  }
 ]
 
 export const EMAIL = 'purohitprachi@proton.me'
