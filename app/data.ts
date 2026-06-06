@@ -87,11 +87,23 @@ export const WORK_EXPERIENCE: WorkExperience[] = [
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    title: 'Getting Started With React Native',
+    description: 'Using the React Native CLI',
+    link: 'https://prachipurohit.hashnode.dev/getting-started-with-react-native',
+    uid: 'blog-1',
+  },
+  {
+    title: 'Setting up dev environment for react native on Windows',
+    description: '',
+    link: 'https://prachipurohit.hashnode.dev/setting-up-dev-environment-for-react-native-on-windows',
+    uid: 'blog-2',
+  },
+  {
     title: 'How Does Satellite Communication Work?',
     description:
       'A quick, no-jargon overview of satellites and satellite communication.',
     link: '/blog/test-blog',
-    uid: 'blog-0',
+    uid: 'blog-3',
   },
 ]
 
@@ -108,10 +120,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'Discord',
     link: 'https://www.discord.com/users/1426237124000350374',
   },
-  {
-    label: 'Schedule a call',
-    link: 'https://cal.com/prachipurohit',
-  }
+  // {
+  //   label: 'Schedule a call',
+  //   link: 'https://cal.com/prachipurohit',
+  // }
 ]
 
 export const EMAIL = 'purohitprachi@proton.me'
