@@ -99,12 +99,19 @@ export const BLOG_POSTS: BlogPost[] = [
     uid: 'blog-2',
   },
   {
-    title: 'How Does Satellite Communication Work?',
+    title: 'ScrollView v/s FlatList',
     description:
-      'A quick, no-jargon overview of satellites and satellite communication.',
-    link: '/blog/test-blog',
+      'Understanding rendering, virtualization, and when to use each component',
+    link: 'https://prachipurohit.hashnode.dev/scrollview-v-s-flatlist-in-rn',
     uid: 'blog-3',
   },
+  // {
+  //   title: 'How Does Satellite Communication Work?',
+  //   description:
+  //     'A quick, no-jargon overview of satellites and satellite communication.',
+  //   link: '/blog/test-blog',
+  //   uid: 'blog-3',
+  // },
 ]
 
 export const SOCIAL_LINKS: SocialLink[] = [
