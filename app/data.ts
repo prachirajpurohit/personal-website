@@ -28,6 +28,13 @@ type SocialLink = {
 
 export const PROJECTS: Project[] = [
   {
+    name: 'Pet App Design',
+    description: 'Mobile App built with React Native',
+    link: 'https://github.com/prachirajpurohit/petAppDesign',
+    video: '/petapp.png',
+    id: 'project4',
+  },
+  {
     name: 'CloseLoop',
     description:
       'Built to ensure every person who reaches out gets a response. No exceptions.',
@@ -43,14 +50,14 @@ export const PROJECTS: Project[] = [
     video: 'cufe.png',
     id: 'project2',
   },
-  {
-    name: 'Margin',
-    description:
-      'A distraction-free writing space with big, bold typography for daily thoughts',
-    link: 'https://github.com/prachirajpurohit/margin',
-    video: '/margin.png',
-    id: 'project1',
-  },
+  // {
+  //   name: 'Margin',
+  //   description:
+  //     'A distraction-free writing space with big, bold typography for daily thoughts',
+  //   link: 'https://github.com/prachirajpurohit/margin',
+  //   video: '/margin.png',
+  //   id: 'project1',
+  // },
   {
     name: 'Liminal',
     description:
@@ -93,8 +100,8 @@ export const BLOG_POSTS: BlogPost[] = [
     uid: 'blog-1',
   },
   {
-    title: 'Setting up dev environment for react native on Windows',
-    description: '',
+    title: 'Setting up environment for react native on Windows',
+    description: 'configuring React Native CLI on Windows, without using Expo.',
     link: 'https://prachipurohit.hashnode.dev/setting-up-dev-environment-for-react-native-on-windows',
     uid: 'blog-2',
   },
@@ -123,10 +130,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
     label: 'LinkedIn',
     link: 'https://www.linkedin.com/in/prachi-purohit-2a00243a2/',
   },
-  {
-    label: 'Discord',
-    link: 'https://www.discord.com/users/1426237124000350374',
-  },
+  // {
+  //   label: 'Discord',
+  //   link: 'https://www.discord.com/users/1426237124000350374',
+  // },
   // {
   //   label: 'Schedule a call',
   //   link: 'https://cal.com/prachipurohit',
