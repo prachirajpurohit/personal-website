@@ -1,0 +1,150 @@
+export const metadata = {
+  title: 'Setting Up the Development Environment for React Native on Windows',
+  description:
+    'Learn how to set up a complete React Native development environment on Windows, including Node.js, Chocolatey, OpenJDK, Android Studio, environment variables, and Android emulators.',
+  alternates: {
+    canonical: '/blog/setting-up-dev-env-for-rn',
+  },
+}
+
+# Setting Up the Development Environment for React Native on Windows
+
+## Table of Contents
+
+- [Step 1: Install Node.js](#step-1-install-nodejs)
+- [Step 2: Install a Code Editor](#step-2-install-a-code-editor)
+- [Step 3: Install Chocolatey](#step-3-install-chocolatey)
+- [Step 4: Install JDK and Node via Chocolatey](#step-4-install-jdk-and-node-via-chocolatey)
+- [Step 5: Install Android Studio](#step-5-install-android-studio)
+- [Step 6: Configure Environment Variables](#step-6-configure-environment-variables)
+- [Verify Environment Variables](#verify-environment-variables)
+- [Step 7: Configure Android Studio](#step-7-configure-android-studio)
+- [Step 8: Set Up a Device](#step-8-set-up-a-device)
+- [Step 9: Run Your React Native App](#step-9-run-your-react-native-app)
+
+## Step 1: Install Node.js
+
+Download and install Node.js from **nodejs.org**.
+
+Verify the installation:
+
+```bash id="y2r8mx"
+node -v
+npm -v
+```
+
+## Step 2: Install a Code Editor
+
+Download VS Code from **code.visualstudio.com**. Any other editor is also supported.
+
+## Step 3: Install Chocolatey
+
+Open PowerShell as Administrator and run:
+
+```powershell id="3h4m7p"
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+```
+
+## Step 4: Install JDK and Node via Chocolatey
+
+Install Node.js and OpenJDK:
+
+```bash id="v9k2tn"
+choco install -y nodejs-lts microsoft-openjdk17
+```
+
+Verify the Java installation:
+
+```bash id="j6s8qa"
+java -version
+```
+
+## Step 5: Install Android Studio
+
+Download Android Studio from **developer.android.com/studio**.
+
+During installation, ensure the following components are selected:
+
+- Android SDK
+- Android SDK Platform
+- Android Virtual Device
+
+Follow the standard installation prompts to complete setup.
+
+## Step 6: Configure Environment Variables
+
+Open **Environment Variables** by searching for `env` in the Windows search bar.
+
+Under **User Variables**, create a new variable:
+
+| Variable Name | Variable Value                                  |
+| ------------- | ----------------------------------------------- |
+| ANDROID_HOME  | `C:\Users\%USERNAME%\AppData\Local\Android\Sdk` |
+
+Under **User Variables**, select **Path → Edit → New** and add:
+
+```text id="n4c8yb"
+C:\Users\%USERNAME%\AppData\Local\Android\Sdk\platform-tools
+```
+
+Click **OK** to save.
+
+## Verify Environment Variables
+
+Open PowerShell and run the following command to confirm `ANDROID_HOME` was created:
+
+```powershell id="r5x1qe"
+Get-ChildItem -Path Env:
+```
+
+Open Command Prompt and run the following commands to confirm all tools are installed:
+
+```bash id="m7p2ka"
+node -v
+java -version
+adb --version
+```
+
+## Step 7: Configure Android Studio
+
+Go to:
+
+**File → Settings → Languages & Frameworks → Android SDK**
+
+### SDK Platforms
+
+Install the desired Android version.
+
+Example:
+
+- Android 15.0 "VanillaIceCream" (API 35)
+
+### SDK Tools
+
+Install the following:
+
+- Android SDK Build-Tools
+- Android SDK Command-Line Tools
+- Android Emulator
+- Android Emulator Hypervisor Driver (Installer)
+- Android SDK Platform-Tools
+- Google Play Licensing Library
+
+## Step 8: Set Up a Device
+
+In Android Studio, select the **Device Manager** icon from the top-right toolbar.
+
+You can either:
+
+- Create and launch a virtual device (emulator), or
+- Connect a physical device using wireless debugging.
+
+## Step 9: Run Your React Native App
+
+Once a device is active, start your app with:
+
+```bash id="k3n9vf"
+npm run android
+```
+
+The app will build and launch on the connected emulator or physical device.

@@ -1,0 +1,122 @@
+export const metadata = {
+  title: 'ScrollView vs FlatList in React Native',
+  description:
+    'Understand the differences between ScrollView and FlatList in React Native, including rendering behavior, virtualization, performance implications, and when to use each component.',
+  alternates: {
+    canonical: '/blog/scrollview-vs-flatlist',
+  },
+}
+
+# ScrollView vs FlatList in React Native
+
+Understanding rendering, virtualization, and when to use each component.
+
+## Table of Contents
+
+- [ScrollView](#scrollview)
+- [FlatList](#flatlist)
+- [FlatList & ScrollView Internally](#flatlist--scrollview-internally)
+- [Why Do Many Developers Not See Much Difference?](#why-do-many-developers-not-see-much-difference)
+- [A Concise Blog Summary](#a-concise-blog-summary)
+
+## ScrollView
+
+`ScrollView` renders all its children at once.
+
+```tsx id="5x3lkr"
+<ScrollView>
+  {items.map((item) => (
+    <Item key={item.id} />
+  ))}
+</ScrollView>
+```
+
+If you have 1,000 items, React Native creates and mounts 1,000 item components immediately, even if only 10 are visible on screen.
+
+### Pros
+
+- Simple to use
+- Good for small lists
+- Flexible layout
+
+### Cons
+
+- High memory usage for large lists
+- Slower initial render
+- Performance degrades as list size grows
+
+## FlatList
+
+`FlatList` is optimized for rendering large datasets.
+
+```tsx id="m7q2pw"
+<FlatList data={items} renderItem={({ item }) => <Item item={item} />} />
+```
+
+Instead of rendering everything, it renders:
+
+- Visible items
+- A small buffer around visible items
+
+As you scroll, it:
+
+- Creates new items entering the viewport
+- Recycles or removes items that move far off-screen
+
+This behavior is often called **virtualization** or **windowing**.
+
+### Pros
+
+- Lower memory usage
+- Better performance for large lists
+- Built-in features such as:
+
+  - Item separators
+  - Pull-to-refresh
+  - Infinite scrolling
+  - Viewability tracking
+
+### Cons
+
+- Slightly more configuration
+- Can be overkill for tiny lists
+
+## FlatList & ScrollView Internally
+
+The hierarchy is roughly:
+
+```text id="t8j4yv"
+ScrollView
+   ↑
+VirtualizedList
+   ↑
+FlatList
+```
+
+`FlatList` is built on top of `VirtualizedList`, which itself uses scrollable native views under the hood.
+
+`ScrollView` renders all children eagerly, while `FlatList` is a higher-level abstraction built on `VirtualizedList` that provides virtualization (lazy rendering/windowing) for large lists.
+
+## Why Do Many Developers Not See Much Difference?
+
+With small datasets (10–50 items), the difference is often negligible.
+
+```js id="w6p9na"
+const items = Array.from({ length: 20 })
+```
+
+Both components will generally feel equally fast.
+
+The difference becomes obvious when you have much larger datasets:
+
+```js id="r3m7kd"
+const items = Array.from({ length: 5000 })
+```
+
+A `ScrollView` may consume significant memory and take longer to mount, while a `FlatList` remains responsive because only a subset of items is rendered at any given time.
+
+## A Concise Blog Summary
+
+`ScrollView` renders every child component immediately, making it suitable for small lists. `FlatList` builds on React Native's `VirtualizedList` to render only visible items and a small buffer around them, improving memory usage and performance for large datasets.
+
+While both provide scrolling functionality, `FlatList` is specifically optimized for list virtualization and should generally be preferred for dynamic or large collections of data.

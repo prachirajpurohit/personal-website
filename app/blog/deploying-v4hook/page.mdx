@@ -1,0 +1,202 @@
+export const metadata = {
+  title: 'Deploying ILShield: A Uniswap v4 Hook on Contract.dev Stagenet',
+  description:
+    'Learn how ILShield, a Uniswap v4 hook built during Atrium Academy UHI9, was deployed on Contract.dev Stagenet using HookMiner, CREATE2, and Uniswap v4 hook permissions.',
+  alternates: {
+    canonical: '/blog/deploying-v4hook',
+  },
+}
+
+# Deploying ILShield: A Uniswap v4 Hook on Contract.dev Stagenet
+
+As part of Atrium Academy’s 9th Uniswap Hook Incubator cohort, I built **ILShield** — a Uniswap v4 hook designed to compensate liquidity providers for impermanent loss.
+
+ILShield embeds an insurance system directly inside a Uniswap v4 pool. Every `zeroForOne` swap contributes a small premium to a shared reserve. When an LP exits with impermanent loss, the hook compensates them automatically in the same transaction.
+
+After getting the hook working locally with Foundry, I wanted to test it against a mainnet-like production state. I used **Stagenet by Contract.dev**, which bridges the gap between Anvil, where you control everything, and mainnet, where mistakes cost money.
+
+This article walks through the deployment process.
+
+> **Note:** I'm currently learning Uniswap v4 hooks. I wanted to see if I could deploy one on a Stagenet, and this article documents what I learned along the way.
+
+## About Stagenets
+
+Stagenets are private testnets that replay mainnet with built-in contract simulations, analytics, and developer tools. They provide a persistent staging environment with production-like state.
+
+The faucet also eliminates one of the most common testnet headaches: acquiring tokens. You can mint any amount of any token on demand, reducing friction in the development workflow.
+
+**Read more:** https://docs.contract.dev/core-concepts/stagenets
+
+## Setup
+
+Getting started takes only a few clicks:
+
+1. Login
+2. Create a project
+3. Select a chain
+4. Import your GitHub repository
+
+Once imported, the contract appears in your dashboard and the RPC endpoint is ready to use.
+
+![Project Setup on Stagenets](/images/blog/project-setup-on-stagenet.png)
+
+## Hook Deployment
+
+With the project configured, the next step is writing a deployment script.
+
+Before doing that, there is one important detail about Uniswap v4 hooks:
+
+> You cannot deploy a hook at a random address.
+
+When a pool is created, the PoolManager validates the hook address by inspecting specific bits that encode the hook's declared permissions. If those bits don't match, the transaction reverts with `HookAddressNotValid`.
+
+The deployment process is therefore:
+
+1. Define the required hook permission flags.
+2. Use HookMiner to find a CREATE2 salt that produces a valid address.
+3. Deploy the hook using that salt.
+4. Verify the deployed address matches the address found by HookMiner.
+
+## Hook Permissions
+
+ILShield uses four callback permissions:
+
+```text id="q3m8ka"
+afterAddLiquidity         → 1 << 10 = 0x0400
+afterRemoveLiquidity      → 1 << 8  = 0x0100
+afterSwap                 → 1 << 6  = 0x0040
+afterSwapReturnsDelta     → 1 << 2  = 0x0004
+-----------------------------------------
+Combined                            0x0544
+```
+
+This means the 14 low bits of the deployed address must equal `0x0544`.
+
+A standard `forge create` generates a random address that will almost certainly fail validation. Using CREATE2 with a mined salt is the standard approach for deploying a hook to a valid address.
+
+## HookMiner
+
+Uniswap provides a utility called **HookMiner** that searches for a CREATE2 salt capable of producing a valid hook address.
+
+You can find it in the `v4-hooks-public` repository.
+
+## Important Addresses
+
+Two addresses are required in the deployment script.
+
+### PoolManager
+
+Ethereum mainnet and mainnet forks:
+
+```text id="v8n4tr"
+0x000000000004444c5dc75cB358380D2e3dE08A90
+```
+
+### CREATE2 Deployer Proxy
+
+In Forge tests this is typically `address(this)`.
+
+For Forge scripts, use the canonical proxy:
+
+```text id="r2w6kp"
+0x4e59b44847b379578588920cA78FbF26c0B4956C
+```
+
+**Reference:** [Uniswap v4 Hook Deployment Guide](https://developers.uniswap.org/docs/protocols/v4/guides/hooks/hook-deployment)
+
+## The Deployment Script
+
+First, define the permission flags:
+
+```solidity id="d4j9xa"
+uint160 FLAGS = uint160(
+    Hooks.AFTER_ADD_LIQUIDITY_FLAG    |
+    Hooks.AFTER_REMOVE_LIQUIDITY_FLAG |
+    Hooks.AFTER_SWAP_FLAG             |
+    Hooks.AFTER_SWAP_RETURNS_DELTA_FLAG
+); // 0x0544
+```
+
+Next, use HookMiner to find a salt that produces a matching address:
+
+```solidity id="c7p3nm"
+bytes memory constructorArgs = abi.encode(POOL_MANAGER);
+
+(address hookAddress, bytes32 salt) = HookMiner.find(
+    CREATE2_DEPLOYER,
+    FLAGS,
+    type(ILShieldHook).creationCode,
+    constructorArgs
+);
+```
+
+Then deploy using CREATE2 and verify the resulting address:
+
+```solidity id="f1q8wb"
+vm.broadcast();
+
+ILShieldHook hook =
+    new ILShieldHook{salt: salt}(IPoolManager(POOL_MANAGER));
+
+require(
+    address(hook) == hookAddress,
+    "ILShieldHookScript: hook address mismatch"
+);
+```
+
+## Running the Script
+
+Create a `.env` file:
+
+```bash id="k5r2yd"
+STAGENET_RPC_URL=https://rpc.contract.dev/your-stagenet-id
+PRIVATE_KEY=0x...
+```
+
+Deploy the contract:
+
+```bash id="n9v6lc"
+source .env
+
+forge script script/DeployILShield.s.sol \
+  --rpc-url $STAGENET_RPC_URL \
+  --private-key $PRIVATE_KEY \
+  --broadcast -vvvv
+```
+
+If everything succeeds, the hook will be deployed to a valid address 🎉
+
+![Hook deployed on Stagenet](/images/blog/ilshield-hook-deployed-stagenet.png)
+
+## What's Next?
+
+After deployment, the next steps depend on your specific contract.
+
+For ILShield, that meant:
+
+- Creating a pool
+- Initializing the hook configuration
+- Seeding the insurance reserve
+
+The Contract.dev dashboard also provides tools to:
+
+- Track contract activity over time
+- Simulate transactions
+- Schedule recurring transactions
+- Explore contract state
+
+## Closing Thoughts
+
+The most interesting part of the process wasn't the deployment itself, but Uniswap v4's permission model.
+
+Because hook capabilities are encoded directly into the contract address, deployment becomes part of the application's logic. HookMiner and CREATE2 solve this problem elegantly, and Stagenets provide a convenient environment for testing the entire workflow against mainnet state before touching production.
+
+**ILShield** was built during Atrium Academy's UHI9 cohort and served as an excellent learning exercise for understanding how Uniswap v4 hooks work in practice.
+
+## Reference Links
+
+- [HookMiner Utility](https://github.com/Uniswap/v4-hooks-public/blob/main/test/utils/HookMiner.sol)
+- [Uniswap v4 Hook Deployment Guide](https://developers.uniswap.org/docs/protocols/v4/guides/hooks/hook-deployment)
+- [Uniswap v4 Deployments](https://developers.uniswap.org/docs/protocols/v4/deployments)
+- [Stagenets — Contract.dev](https://docs.contract.dev/core-concepts/stagenets)
+- [ILShield GitHub Repository](https://github.com/acyutaharidas-gif/ilShield_uhi9)

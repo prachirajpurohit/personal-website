@@ -96,21 +96,28 @@ export const BLOG_POSTS: BlogPost[] = [
   {
     title: 'Getting Started With React Native',
     description: 'Using the React Native CLI',
-    link: 'https://prachipurohit.hashnode.dev/getting-started-with-react-native',
+    link: '/blog/getting-started-with-react-native',
     uid: 'blog-1',
   },
   {
     title: 'Setting up environment for react native on Windows',
     description: 'configuring React Native CLI on Windows, without using Expo.',
-    link: 'https://prachipurohit.hashnode.dev/setting-up-dev-environment-for-react-native-on-windows',
+    link: '/blog/setting-up-env-for-rn',
     uid: 'blog-2',
   },
   {
     title: 'ScrollView v/s FlatList',
     description:
       'Understanding rendering, virtualization, and when to use each component',
-    link: 'https://prachipurohit.hashnode.dev/scrollview-v-s-flatlist-in-rn',
+    link: '/blog/scrollview-vs-flatlist',
     uid: 'blog-3',
+  },
+  {
+    title: 'Deploying ILShield: A Uniswap v4 Hook on Contract.dev Stagenet',
+    description:
+      'Overview on how to deploy a hook using HookMiner, CREATE2, and Uniswap v4 hook permissions',
+    link: '/blog/deploying-v4hook',
+    uid: 'blog-4',
   },
   // {
   //   title: 'How Does Satellite Communication Work?',

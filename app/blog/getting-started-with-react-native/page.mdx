@@ -1,0 +1,47 @@
+export const metadata = {
+  title: 'Getting Started With React Native Using the React Native CLI',
+  description:
+    'Create your first React Native application using the React Native CLI. Learn how to initialize a project, start the Metro bundler, and run your app on an Android emulator.',
+  alternates: {
+    canonical: '/blog/getting-started-with-react-native',
+  },
+}
+
+# Getting Started With React Native
+
+## Using the React Native CLI
+
+After setting up the development environment, we can start with the React Native setup.
+
+**Reference:** https://reactnative.dev/docs/getting-started-without-a-framework
+
+First, create a new project directory and navigate into it:
+
+```bash
+mkdir react-native-project
+cd react-native-project
+```
+
+Next, initialize a new React Native project by running:
+
+```bash
+npx @react-native-community/cli@latest init AwesomeProject
+```
+
+When prompted to install dependencies, select **Y**.
+
+The setup completed successfully without any issues using React Native v0.85.
+
+Once the project has been created, start the Metro bundler:
+
+```bash
+npm start
+```
+
+Open a second terminal window and run:
+
+```bash
+npm run android
+```
+
+If you've already set up an Android emulator (as covered in the previous blog post), it should automatically connect and launch the application. The initial build may take a few minutes, but once it's finished, you should see the default React Native app running in the emulator.
