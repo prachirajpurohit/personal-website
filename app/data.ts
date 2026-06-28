@@ -119,6 +119,12 @@ export const BLOG_POSTS: BlogPost[] = [
     link: '/blog/deploying-v4hook',
     uid: 'blog-4',
   },
+  {
+    title: 'React Native : brain dump',
+    description: 'Everything I Learned Building My First Real Screen',
+    link: '/blog/react-native-part1',
+    uid: 'blog-5',
+  },
   // {
   //   title: 'How Does Satellite Communication Work?',
   //   description:
